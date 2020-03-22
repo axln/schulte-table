@@ -5,7 +5,7 @@ export function App(props) {
     return (
         <>
             <h1>Schulte Tables</h1>
-            <Table size={3}/>
+            <Table size={5}/>
         </>
     );
 }

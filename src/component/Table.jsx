@@ -8,40 +8,49 @@ function formatSeconds(seconds) {
     return measuredTime.toISOString().substr(14, 5);
 }
 
-export class Table extends Component {
-    constructor({ size }) {
-        super();
-
-        const cells = new Array(size * size);
-        for (let i = 0; i < cells.length; ++i) {
-            cells[i] = {
-                number: i + 1,
-                order: Math.random()
-            }
+function initTable(size) {
+    const cells = new Array(size * size);
+    for (let i = 0; i < cells.length; ++i) {
+        cells[i] = {
+            number: i + 1,
+            order: Math.random()
         }
-        cells.sort((a, b) => a.order - b.order);
-        this.state = {
-            cells,
-            next: 1,
-            mistakes: 0,
-            seconds: 0,
-            finished: false
-        };
     }
+    cells.sort((a, b) => a.order - b.order);
+    return cells;
+}
 
-    componentDidMount() {
+export class Table extends Component {
+    state = {
+        cells: initTable(this.props.size),
+        next: 1,
+        mistakes: 0,
+        seconds: 0,
+        finished: false
+    };
+
+    startTimer = () => {
         this.interval = setInterval(() => {
             this.setState({
                 seconds: this.state.seconds + 1
             });
 
-        }, 1000)
+        }, 1000);
+    };
+
+    stopTimer = () => {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
+    };
+
+    componentDidMount() {
+        this.startTimer();
     }
 
     componentWillUnmount() {
-        if (this.interval) {
-            clearInterval(this.interval);
-        }
+        this.stopTimer();
     }
 
 
@@ -66,13 +75,22 @@ export class Table extends Component {
     };
 
     finishTask() {
-        console.log('Table is finished!');
-        clearInterval(this.interval);
-        this.interval = null;
+        this.stopTimer();
         this.setState({
             finished: true
-        })
+        });
     }
+
+    restartTask = () => {
+        this.setState({
+            cells: initTable(this.props.size),
+            next: 1,
+            mistakes: 0,
+            seconds: 0,
+            finished: false
+        });
+        this.startTimer();
+    };
 
     render({ size}, { cells, next, mistakes, seconds, finished }) {
         const tableStyle = {
@@ -87,7 +105,8 @@ export class Table extends Component {
                         <div className='status'>
                             <span style={{color: 'green'}}>You finished this table!</span>&nbsp;
                             Your time: {formatSeconds(seconds)}&nbsp;
-                            Mistakes: {mistakes}
+                            Mistakes: {mistakes}&nbsp;
+                            <button onClick={this.restartTask}>Restart</button>
                         </div>
                     ) : (
                         <div className='status'>
@@ -97,7 +116,6 @@ export class Table extends Component {
                         </div>
                     )
                 }
-
 
                 <div class='table' style={tableStyle} >
                     {cells.map(cell => {

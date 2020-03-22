@@ -1,16 +1,19 @@
+$cell-color: #e1ecf4;
+
 .table {
   display: inline-grid;
   grid-gap: 10px;
   margin-top: 10px;
 
   .cell {
-    background-color: #ddd;
-
-    font-size: 24px;
+    background-color: lightgreen;
+    color: #39739d;
+    font-size: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
     &.wrong {
+      background-color: $cell-color;
       cursor: pointer;
       &:active {
         background-color: lightpink;
@@ -18,6 +21,7 @@
     }
 
     &.right {
+      background-color: $cell-color;
       cursor: pointer;
       &:active {
         background-color: lightgreen;
