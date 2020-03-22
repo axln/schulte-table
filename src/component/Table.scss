@@ -1,0 +1,28 @@
+.table {
+  display: inline-grid;
+  grid-gap: 10px;
+  margin-top: 10px;
+
+  .cell {
+    background-color: #ddd;
+
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.wrong {
+      cursor: pointer;
+      &:active {
+        background-color: lightpink;
+      }
+    }
+
+    &.right {
+      cursor: pointer;
+      &:active {
+        background-color: lightgreen;
+      }
+    }
+  }
+}
+
