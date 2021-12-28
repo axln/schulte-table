@@ -1,6 +1,6 @@
 {
   "name": "schulte-table",
-  "version": "0.1.0-dev",
+  "version": "0.1.1-dev",
   "description": "schulte table",
   "main": "src/index.js",
   "repository": "git@github.com:axln/schulte-table.git",
